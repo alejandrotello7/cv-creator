@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: alejandrotellocvcreator 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alejandrotellocvcreator
+  template:
+    metadata:
+      labels:
+        app: alejandrotellocvcreator 
+    spec:
+      containers:
+        - name: alejandrotellocvcreator 
+          image: atelloregistry.azurecr.io/alejandrotellocvcreator
+          ports:
+          - containerPort: 5000
