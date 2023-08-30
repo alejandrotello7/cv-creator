@@ -1,0 +1,31 @@
+version: '3'
+services:
+  vue-frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - shared-volume:/shared-data
+    expose:
+      - "3000"
+
+  flask-backend:
+    build:
+      context: ./backend
+    expose:
+      - "5000"
+
+  custom-nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - shared-volume:/target-data
+    depends_on:
+      - vue-frontend
+
+volumes:
+  shared-volume:
+
+networks:
+  mynetwork:
