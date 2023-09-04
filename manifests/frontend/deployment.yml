@@ -1,6 +1,8 @@
 # frontend Deployment
 apiVersion: apps/v1
 kind: Deployment
+variables:
+  tag: '$(Build.BuildId)'
 metadata:
   name: frontend-deployment
 spec:
