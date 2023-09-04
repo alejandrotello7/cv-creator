@@ -61,6 +61,10 @@ stages:
         dockerfile: $(dockerfilePathNginx)
         tags: |
           $(tag)
+
+    - upload: manifests
+      artifact: manifests
+
 - stage: Deploy
   displayName: 'Deploy to Kubernetes'
   jobs:
