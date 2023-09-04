@@ -21,6 +21,10 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
+  # Add these variables to match your Docker Compose setup
+  frontendContext: './frontend'
+  backendContext: './backend'
+  nginxContext: './nginx'
 
 stages:
 - stage: Build
@@ -65,15 +69,8 @@ stages:
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
-          - task: KubernetesManifest@0
+          - script: |
+              kubectl apply -f $(frontendContext)/k8s-deployment.yml
+              kubectl apply -f $(backendContext)/k8s-deployment.yml
+              kubectl apply -f $(nginxContext)/k8s-deployment.yml
             displayName: Deploy to Kubernetes cluster
-            inputs:
-              action: deploy
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
-
