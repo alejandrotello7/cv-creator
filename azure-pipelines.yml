@@ -101,7 +101,8 @@ stages:
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
-
+              containers: |
+                $(containerRegistry)/$(imageRepositoryFrontend):$(tag)
 
   - deployment: DeployBackend
     displayName: 'Deploy Backend'
@@ -129,7 +130,8 @@ stages:
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
-
+              containers: |
+                $(containerRegistry)/$(imageRepositoryBackend):$(tag)
 
   - deployment: DeployNginx
     displayName: 'Deploy Backend'
@@ -157,4 +159,5 @@ stages:
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
-
+              containers: |
+                $(containerRegistry)/$(imageRepositoryNginx):$(tag)
