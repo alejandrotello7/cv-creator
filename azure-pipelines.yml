@@ -4,8 +4,6 @@ trigger:
 pr:
 - '*'
 
-pool:
-  vmImage: 'ubuntu-latest'
 
 variables:
   # Container registry service connection established during pipeline creation
@@ -19,6 +17,7 @@ variables:
   dockerfilePathNginx: 'nginx/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'atelloregistry1995f9d1-auth'
+  vmImageName: 'ubuntu-latest'
 
 stages:
 - stage: BuildAndPush
@@ -68,7 +67,7 @@ stages:
   - deployment: DeployFrontend
     displayName: 'Deploy Frontend'
     pool:
-      vmImage: $(vmImage)
+      vmImage: $(vmImageName)
     environment: 'alejandrotello7cvcreator-3490.default'
     strategy:
       runOnce:
@@ -96,7 +95,7 @@ stages:
   - deployment: DeployBackend
     displayName: 'Deploy Backend'
     pool:
-      vmImage: $(vmImage)
+      vmImage: $(vmImageName)
     environment: 'alejandrotello7cvcreator-3490.default'
     strategy:
       runOnce:
@@ -124,7 +123,7 @@ stages:
   - deployment: DeployNginx
     displayName: 'Deploy Backend'
     pool:
-      vmImage: $(vmImage)
+      vmImage: $(vmImageName)
     environment: 'alejandrotello7cvcreator-3490.default'
     strategy:
       runOnce:
