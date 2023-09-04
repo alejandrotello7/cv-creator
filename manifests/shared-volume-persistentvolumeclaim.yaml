@@ -1,14 +1,11 @@
+# PersistentVolumeClaim
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: shared-volume
   name: shared-volume
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
-status: {}
+      storage: 100Mi  # Adjust the storage size as needed
