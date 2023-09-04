@@ -37,6 +37,8 @@ stages:
         dockerfile: $(dockerfilePathFrontend)
         tags: |
           $(tag)
+    - upload: manifests
+      artifact: manifests
 
   - job: BuildBackend
     displayName: 'Build and Push Backend'
@@ -50,6 +52,9 @@ stages:
         dockerfile: $(dockerfilePathBackend)
         tags: |
           $(tag)
+
+    - upload: manifests
+      artifact: manifests
 
   - job: BuildNginx
     displayName: 'Build and Push Nginx'
