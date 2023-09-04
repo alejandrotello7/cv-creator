@@ -5,7 +5,7 @@ pr:
 - '*'
 
 pool:
-  vmImage: $(vmImageName)  # Use the specified VM image
+  vmImage: 'ubuntu-latest' # Use the specified VM image
 
 variables:
   # Container registry service connection established during pipeline creation
