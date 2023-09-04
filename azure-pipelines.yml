@@ -5,7 +5,7 @@ pr:
 - '*'
 
 pool:
-  vmImage: 'ubuntu-latest' # Use the specified VM image
+  vmImage: 'ubuntu-latest'
 
 variables:
   # Container registry service connection established during pipeline creation
@@ -32,7 +32,7 @@ stages:
       inputs:
         command: 'buildAndPush'
         containerRegistry: $(dockerRegistryServiceConnection)
-        repository: $(containerRegistry)/$(imageRepositoryFrontend):$(tag)
+        repository: $(containerRegistry)/$(imageRepositoryFrontend)
         dockerfile: $(dockerfilePathFrontend)
         tags: |
           $(tag)
@@ -54,7 +54,7 @@ stages:
     displayName: 'Build and Push Nginx'
     steps:
     - task: Docker@2
-      displayName: 'Build and Push Backend Docker Image'
+      displayName: 'Build and Push Nginx Docker Image'
       inputs:
         command: 'buildAndPush'
         containerRegistry: $(dockerRegistryServiceConnection)

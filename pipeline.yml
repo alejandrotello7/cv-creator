@@ -1,72 +1,60 @@
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
 trigger:
-- main  # Trigger the pipeline when changes are pushed to the 'main' branch
+- main
 
-pr:
-- '*'
-
-pool:
-  vmImage: $(vmImageName)  # Use the specified VM image
+resources:
+- repo: self
 
 variables:
+
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '36792dfc-ef4d-42b8-b410-868f218b9ba8'
-  imageRepositoryFrontend: 'frontend-image'
-  imageRepositoryBackend: 'backend-image'
-  imageRepositoryNginx: 'nginx-image'
+  imageRepository: 'alejandrotellocvcreator'
   containerRegistry: 'atelloregistry.azurecr.io'
-  dockerfilePathFrontend: 'frontend/Dockerfile'
-  dockerfilePathBackend: 'backend/Dockerfile'
-  dockerfilePathNginx: 'nginx/Dockerfile'
+  dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'atelloregistry1995f9d1-auth'
 
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+  # Add these variables to match your Docker Compose setup
+  frontendContext: './frontend'
+  backendContext: './backend'
+  nginxContext: './nginx'
+
 stages:
-- stage: BuildAndPush
-  displayName: 'Build and Push Docker Images'
+- stage: Build
+  displayName: Build stage
   jobs:
-  - job: BuildFrontend
-    displayName: 'Build and Push Frontend'
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: 'Build and Push Frontend Docker Image'
+      displayName: Build and push an image to container registry
       inputs:
-        command: 'buildAndPush'
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
-        repository: $(containerRegistry)/$(imageRepositoryFrontend):$(tag)
-        dockerfile: $(dockerfilePathFrontend)
         tags: |
           $(tag)
 
-  - job: BuildBackend
-    displayName: 'Build and Push Backend'
-    steps:
-    - task: Docker@2
-      displayName: 'Build and Push Backend Docker Image'
-      inputs:
-        command: 'buildAndPush'
-        containerRegistry: $(dockerRegistryServiceConnection)
-        repository: $(containerRegistry)/$(imageRepositoryBackend):$(tag)
-        dockerfile: $(dockerfilePathBackend)
-        tags: |
-          $(tag)
+    - upload: manifests
+      artifact: manifests
 
-  - job: BuildNginx
-    displayName: 'Build and Push Nginx'
-    steps:
-    - task: Docker@2
-      displayName: 'Build and Push Backend Docker Image'
-      inputs:
-        command: 'buildAndPush'
-        containerRegistry: $(dockerRegistryServiceConnection)
-        repository: $(containerRegistry)/$(imageRepositoryNginx):$(tag)
-        dockerfile: $(dockerfilePathNginx)
-        tags: |
-          $(tag)
 - stage: Deploy
-  displayName: 'Deploy to Kubernetes'
+  displayName: Deploy stage
+  dependsOn: Build
+
   jobs:
-  - deployment: DeployFrontend
-    displayName: 'Deploy Frontend'
+  - deployment: Deploy
+    displayName: Deploy
     pool:
       vmImage: $(vmImageName)
     environment: 'alejandrotello7cvcreator-3490.default'
@@ -75,76 +63,14 @@ stages:
         deploy:
           steps:
           - task: KubernetesManifest@0
-            displayName: 'Create imagePullSecret'
+            displayName: Create imagePullSecret
             inputs:
-              action: 'createSecret'
-              secretName: $(imagePullSecret)
+              action: createSecret
+              secretName: $(imagePullSecret)a
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
-          - task: KubernetesManifest@0
-            displayName: 'Deploy Frontend to Kubernetes'
-            inputs:
-              action: 'deploy'
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yaml
-                $(Pipeline.Workspace)/manifests/service.yaml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepositoryFrontend):$(tag)
-
-  - deployment: DeployBackend
-    displayName: 'Deploy Backend'
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'alejandrotello7cvcreator-3490.default'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: KubernetesManifest@0
-            displayName: 'Create imagePullSecret'
-            inputs:
-              action: 'createSecret'
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-
-          - task: KubernetesManifest@0
-            displayName: 'Deploy Backend to Kubernetes'
-            inputs:
-              action: 'deploy'
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yaml
-                $(Pipeline.Workspace)/manifests/service.yaml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepositoryBackend):$(tag)
-
-  - deployment: DeployNginx
-    displayName: 'Deploy Backend'
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'alejandrotello7cvcreator-3490.default'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: KubernetesManifest@0
-            displayName: 'Create imagePullSecret'
-            inputs:
-              action: 'createSecret'
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-
-          - task: KubernetesManifest@0
-            displayName: 'Deploy Nginx to Kubernetes'
-            inputs:
-              action: 'deploy'
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yaml
-                $(Pipeline.Workspace)/manifests/service.yaml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepositoryNginx):$(tag)
+          - script: |
+              kubectl apply -f $(frontendContext)/k8s-deployment.yml
+              kubectl apply -f $(backendContext)/k8s-deployment.yml
+              kubectl apply -f $(nginxContext)/k8s-deployment.yml
+            displayName: Deploy to Kubernetes cluster
