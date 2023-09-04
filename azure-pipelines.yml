@@ -4,6 +4,8 @@ trigger:
 pr:
 - '*'
 
+resources:
+- repo: self
 
 variables:
   # Container registry service connection established during pipeline creation
@@ -94,7 +96,7 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(imageRepositoryFrontend):$(tag)
+                $(containerRegistry)/$(imageRepositoryFrontend)
 
   - deployment: DeployBackend
     displayName: 'Deploy Backend'
@@ -122,7 +124,7 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(imageRepositoryBackend):$(tag)
+                $(containerRegistry)/$(imageRepositoryBackend)
 
   - deployment: DeployNginx
     displayName: 'Deploy Backend'
@@ -150,4 +152,4 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(imageRepositoryNginx):$(tag)
+                $(containerRegistry)/$(imageRepositoryNginx)
