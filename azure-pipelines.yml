@@ -68,7 +68,7 @@ stages:
   - deployment: DeployFrontend
     displayName: 'Deploy Frontend'
     pool:
-      vmImage: $(vmImageName)
+      vmImage: $(vmImage)
     environment: 'alejandrotello7cvcreator-3490.default'
     strategy:
       runOnce:
@@ -96,7 +96,7 @@ stages:
   - deployment: DeployBackend
     displayName: 'Deploy Backend'
     pool:
-      vmImage: $(vmImageName)
+      vmImage: $(vmImage)
     environment: 'alejandrotello7cvcreator-3490.default'
     strategy:
       runOnce:
@@ -124,7 +124,7 @@ stages:
   - deployment: DeployNginx
     displayName: 'Deploy Backend'
     pool:
-      vmImage: $(vmImageName)
+      vmImage: $(vmImage)
     environment: 'alejandrotello7cvcreator-3490.default'
     strategy:
       runOnce:
