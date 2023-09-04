@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: custom-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: custom-nginx
+  template:
+    metadata:
+      labels:
+        app: custom-nginx
+    spec:
+      containers:
+        - image: yourregistry.azurecr.io/custom-nginx:latest  # Specify the full image name
+          name: custom-nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /target-data
+              name: shared-volume
+      volumes:
+        - name: shared-volume
+          persistentVolumeClaim:
+            claimName: shared-volume
