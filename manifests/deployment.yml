@@ -15,10 +15,10 @@ spec:
     spec:
       containers:
         - name: frontend-container
-          image: atelloregistry.azurecr.io/alejandrotellocvcreator
+          image: atelloregistry.azurecr.io/frontend-image
           ports:
             - containerPort: 80
-
+---
 # backend Deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -36,10 +36,10 @@ spec:
     spec:
       containers:
         - name: backend-container
-          image: atelloregistry.azurecr.io/alejandrotellocvcreator
+          image: atelloregistry.azurecr.io/backend-image
           ports:
             - containerPort: 80
-
+---
 # nginx Deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -57,10 +57,10 @@ spec:
     spec:
       containers:
         - name: nginx-container
-          image: yourregistry.azurecr.io/custom-nginx:latest  # Specify the Nginx image
+          image: atelloregistry.azurecr.io/nginx-image
           ports:
             - containerPort: 80
-
+---
 # PersistentVolumeClaim
 apiVersion: v1
 kind: PersistentVolumeClaim
