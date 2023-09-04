@@ -45,7 +45,7 @@ stages:
       inputs:
         command: 'buildAndPush'
         containerRegistry: $(dockerRegistryServiceConnection)
-        repository: $(containerRegistry)/$(imageRepositoryBackend):$(tag)
+        repository: $(containerRegistry)/$(imageRepositoryBackend)
         dockerfile: $(dockerfilePathBackend)
         tags: |
           $(tag)
@@ -58,7 +58,7 @@ stages:
       inputs:
         command: 'buildAndPush'
         containerRegistry: $(dockerRegistryServiceConnection)
-        repository: $(containerRegistry)/$(imageRepositoryNginx):$(tag)
+        repository: $(containerRegistry)/$(imageRepositoryNginx)
         dockerfile: $(dockerfilePathNginx)
         tags: |
           $(tag)
