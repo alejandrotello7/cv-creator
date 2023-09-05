@@ -13,6 +13,8 @@ spec:
       labels:
         app: backend
     spec:
+      imagePullSecrets:
+        - name: $(imagePullSecret)
       containers:
         - name: backend-container
           image: atelloregistry.azurecr.io/backend-image:$(tag)
