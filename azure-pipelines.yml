@@ -84,12 +84,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: KubernetesManifest@0
-            displayName: 'Create imagePullSecret'
-            inputs:
-              action: 'createSecret'
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
           - task: KubernetesManifest@0
             displayName: 'Deploy Frontend to Kubernetes'
@@ -100,9 +94,7 @@ stages:
                 $(Pipeline.Workspace)/manifests/frontend/service.yml
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
               imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepositoryFrontend):$(tag)
+                $(imagePullSecret))
 
   - deployment: DeployBackend
     displayName: 'Deploy Backend'
@@ -113,12 +105,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: KubernetesManifest@0
-            displayName: 'Create imagePullSecret'
-            inputs:
-              action: 'createSecret'
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
           - task: KubernetesManifest@0
             displayName: 'Deploy Backend to Kubernetes'
@@ -130,8 +116,6 @@ stages:
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepositoryBackend):$(tag)
 
   - deployment: DeployNginx
     displayName: 'Deploy Nginx'
@@ -142,12 +126,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: KubernetesManifest@0
-            displayName: 'Create imagePullSecret'
-            inputs:
-              action: 'createSecret'
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
           - task: KubernetesManifest@0
             displayName: 'Deploy Nginx to Kubernetes'
@@ -159,5 +137,3 @@ stages:
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepositoryNginx):$(tag)
