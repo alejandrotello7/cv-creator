@@ -95,12 +95,12 @@ stages:
             displayName: 'Deploy Frontend to Kubernetes'
             inputs:
               action: 'deploy'
+              imagePullSecrets: |
+                $(imagePullSecret)
               manifests: |
                 $(Pipeline.Workspace)/manifests/frontend/deployment.yml
                 $(Pipeline.Workspace)/manifests/frontend/service.yml
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
-              imagePullSecrets: |
-                $(imagePullSecret)
               containers: |
                 $(imageRepositoryFrontend):$(tag)
 
@@ -124,12 +124,12 @@ stages:
             displayName: 'Deploy Backend to Kubernetes'
             inputs:
               action: 'deploy'
+              imagePullSecrets: |
+                $(imagePullSecret)
               manifests: |
                 $(Pipeline.Workspace)/manifests/backend/deployment.yml
                 $(Pipeline.Workspace)/manifests/backend/service.yml
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
-              imagePullSecrets: |
-                $(imagePullSecret)
               containers: |
                 $(imageRepositoryBackend):$(tag)
 
@@ -152,11 +152,11 @@ stages:
             displayName: 'Deploy Nginx to Kubernetes'
             inputs:
               action: 'deploy'
+              imagePullSecrets: |
+                $(imagePullSecret)
               manifests: |
                 $(Pipeline.Workspace)/manifests/nginx/deployment.yml
                 $(Pipeline.Workspace)/manifests/nginx/service.yml
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
-              imagePullSecrets: |
-                $(imagePullSecret)
               containers: |
                 $(imageRepositoryNginx):$(tag)

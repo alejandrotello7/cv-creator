@@ -17,6 +17,6 @@ spec:
         - name: $(imagePullSecret)
       containers:
         - name: backend-container
-          image: atelloregistry.azurecr.io/backend-image:$(tag)
+          image: backend-image:$(tag)
           ports:
             - containerPort: 80
