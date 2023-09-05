@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
+  name: backend
 spec:
   replicas: 2
   selector:
@@ -14,7 +14,9 @@ spec:
         app: backend
     spec:
       containers:
-        - name: backend-container
-          image: backend-image:$(tag)
+        - name: backend
+          image: atelloregistry.azurecr.io/backend-image
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
+

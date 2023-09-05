@@ -102,7 +102,7 @@ stages:
                 $(Pipeline.Workspace)/manifests/frontend/service.yml
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
               containers: |
-                $(imageRepositoryFrontend):$(tag)
+                $(containerRegistry)/$(imageRepositoryFrontend):$(tag)
 
   - deployment: DeployBackend
     displayName: 'Deploy Backend'
@@ -131,7 +131,7 @@ stages:
                 $(Pipeline.Workspace)/manifests/backend/service.yml
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
               containers: |
-                $(imageRepositoryBackend):$(tag)
+                $(containerRegistry)/$(imageRepositoryBackend):$(tag)
 
   - deployment: DeployNginx
     displayName: 'Deploy Nginx'
@@ -148,6 +148,7 @@ stages:
               action: 'createSecret'
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+
           - task: KubernetesManifest@0
             displayName: 'Deploy Nginx to Kubernetes'
             inputs:
@@ -159,4 +160,4 @@ stages:
                 $(Pipeline.Workspace)/manifests/nginx/service.yml
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
               containers: |
-                $(imageRepositoryNginx):$(tag)
+                $(containerRegistry)/$(imageRepositoryNginx):$(tag)
