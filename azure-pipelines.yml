@@ -134,7 +134,7 @@ stages:
                 $(containerRegistry)/$(imageRepositoryBackend):$(tag)
 
   - deployment: DeployNginx
-    displayName: 'Deploy Backend'
+    displayName: 'Deploy Nginx'
     pool:
       vmImage: $(vmImageName)
     environment: 'alejandrotello7cvcreator-3490.default'
