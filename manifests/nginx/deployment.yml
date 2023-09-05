@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: nginx-container
-          image: atelloregistry.azurecr.io/nginx-image:$(tag)
+          image: atelloregistry.azurecr.io/atelloregistry.azurecr.io/nginx-image:$(tag)
           ports:
             - containerPort: 80
 
