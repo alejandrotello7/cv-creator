@@ -100,7 +100,7 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/frontend/deployment.yml
                 $(Pipeline.Workspace)/manifests/frontend/service.yml
-                $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
+                $(Pipeline.Workspace)/manifests/nginx-ingress.yaml
               containers: |
                 $(containerRegistry)/$(imageRepositoryFrontend):$(tag)
 
@@ -129,7 +129,7 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/backend/deployment.yml
                 $(Pipeline.Workspace)/manifests/backend/service.yml
-                $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
+                $(Pipeline.Workspace)/manifests/nginx-ingress.yaml
               containers: |
                 $(containerRegistry)/$(imageRepositoryBackend):$(tag)
 
@@ -158,6 +158,6 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/nginx/deployment.yml
                 $(Pipeline.Workspace)/manifests/nginx/service.yml
-                $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
+                $(Pipeline.Workspace)/manifests/nginx-ingress.yaml
               containers: |
                 $(containerRegistry)/$(imageRepositoryNginx):$(tag)
