@@ -90,6 +90,7 @@ stages:
               action: 'createSecret'
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+
           - task: KubernetesManifest@0
             displayName: 'Deploy Frontend to Kubernetes'
             inputs:
@@ -99,7 +100,7 @@ stages:
                 $(Pipeline.Workspace)/manifests/frontend/service.yml
                 $(Pipeline.Workspace)/manifests/shared-volume-persistentvolumeclaim.yaml
               imagePullSecrets: |
-                $(imagePullSecret)
+                $(imagePullSecret))
 
   - deployment: DeployBackend
     displayName: 'Deploy Backend'
@@ -116,6 +117,7 @@ stages:
               action: 'createSecret'
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+
           - task: KubernetesManifest@0
             displayName: 'Deploy Backend to Kubernetes'
             inputs:

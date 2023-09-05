@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: frontend-container
-          image: atelloregistry.azurecr.io/frontend-image:$(tag)
+          image: frontend-image:$(tag)
           ports:
             - containerPort: 80
