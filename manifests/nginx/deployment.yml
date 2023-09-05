@@ -13,8 +13,6 @@ spec:
       labels:
         app: nginx
     spec:
-      imagePullSecrets:
-        - name: $(imagePullSecret)
       containers:
         - name: nginx-container
           image: atelloregistry.azurecr.io/nginx-image:$(tag)
