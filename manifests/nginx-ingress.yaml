@@ -3,15 +3,24 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nginx-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: atello.com
+    - host: yourdomain.com  # Replace with your domain or IP
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: nginx-service-controller  # Name of your nginx service
+                name: nginx-service  # Name of your nginx Service
+                port:
+                  number: 80
+          - path: /backend/
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service  # Name of your backend Service
                 port:
                   number: 80
