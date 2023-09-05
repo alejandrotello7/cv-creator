@@ -13,8 +13,6 @@ spec:
       labels:
         app: backend
     spec:
-      imagePullSecrets:
-        - name: $(imagePullSecret)
       containers:
         - name: backend-container
           image: backend-image:$(tag)
