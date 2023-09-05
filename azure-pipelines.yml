@@ -84,7 +84,6 @@ stages:
       runOnce:
         deploy:
           steps:
-
           - task: KubernetesManifest@0
             displayName: 'Deploy Frontend to Kubernetes'
             inputs:
@@ -105,7 +104,6 @@ stages:
       runOnce:
         deploy:
           steps:
-
           - task: KubernetesManifest@0
             displayName: 'Deploy Backend to Kubernetes'
             inputs:
@@ -126,7 +124,6 @@ stages:
       runOnce:
         deploy:
           steps:
-
           - task: KubernetesManifest@0
             displayName: 'Deploy Nginx to Kubernetes'
             inputs:
