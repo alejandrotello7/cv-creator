@@ -21,6 +21,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: backend-service  # Name of your backend Service
+                name: flask-backend  # Name of your backend Service
                 port:
                   number: 80
