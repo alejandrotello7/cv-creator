@@ -18,4 +18,4 @@ spec:
           image: atelloregistry.azurecr.io/frontend-image
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 3000
