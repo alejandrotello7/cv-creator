@@ -18,5 +18,5 @@ spec:
           image: atelloregistry.azurecr.io/backend-image
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 5000
 
