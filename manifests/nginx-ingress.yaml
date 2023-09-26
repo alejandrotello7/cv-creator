@@ -14,13 +14,13 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: vue-frontend # Name of your nginx Service
+                name: frontend # Name of your nginx Service
                 port:
                   number: 3000
           - path: /backend/
             pathType: Prefix
             backend:
               service:
-                name: flask-backend  # Name of your backend Service
+                name: backend  # Name of your backend Service
                 port:
                   number: 5000
