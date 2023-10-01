@@ -14,7 +14,7 @@ spec:
         app: backend
     spec:
       containers:
-        - name: backend
+        - name: backend-container
           image: atelloregistry.azurecr.io/backend-image
           imagePullPolicy: Always
           ports:
