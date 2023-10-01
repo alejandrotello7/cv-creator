@@ -10,15 +10,13 @@ spec:
     - host:
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          - path: /?(.*)
             backend:
               service:
                 name: frontend # Name of your nginx Service
                 port:
                   number: 3000
           - path: /backend/
-            pathType: Prefix
             backend:
               service:
                 name: backend  # Name of your backend Service
