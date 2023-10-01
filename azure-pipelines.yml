@@ -100,7 +100,6 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/frontend/deployment.yml
                 $(Pipeline.Workspace)/manifests/frontend/service.yml
-                $(Pipeline.Workspace)/manifests/nginx-ingress.yaml
               containers: |
                 $(containerRegistry)/$(imageRepositoryFrontend):$(tag)
 
