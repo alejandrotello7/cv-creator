@@ -64,7 +64,7 @@ stages:
     displayName: 'Deploy Frontend'
     pool:
       vmImage: $(vmImageName)
-    environment: 'alejandrotello7cvcreator-3490.production'
+    environment: 'alejandrotello7cvcreator-3490.default'
     strategy:
       runOnce:
         deploy:
@@ -80,6 +80,7 @@ stages:
             displayName: 'Deploy Frontend to Kubernetes'
             inputs:
               action: 'deploy'
+              namespace: 'production'  # Specify the desired namespace
               imagePullSecrets: |
                 $(imagePullSecret)
               manifests: |
@@ -108,6 +109,7 @@ stages:
             displayName: 'Deploy Backend to Kubernetes'
             inputs:
               action: 'deploy'
+              namespace: 'production'  # Specify the desired namespace
               imagePullSecrets: |
                 $(imagePullSecret)
               manifests: |
@@ -136,6 +138,7 @@ stages:
             displayName: 'Deploy Nginx Ingress to Kubernetes'
             inputs:
               action: 'deploy'
+              namespace: 'production'  # Specify the desired namespace
               imagePullSecrets: |
                 $(imagePullSecret)
               manifests: |
