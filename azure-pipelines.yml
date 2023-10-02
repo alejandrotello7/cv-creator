@@ -80,7 +80,6 @@ stages:
             displayName: 'Deploy Frontend to Kubernetes'
             inputs:
               action: 'deploy'
-              namespace: 'production'  # Specify the desired namespace
               imagePullSecrets: |
                 $(imagePullSecret)
               manifests: |
@@ -109,7 +108,6 @@ stages:
             displayName: 'Deploy Backend to Kubernetes'
             inputs:
               action: 'deploy'
-              namespace: 'production'  # Specify the desired namespace
               imagePullSecrets: |
                 $(imagePullSecret)
               manifests: |
@@ -138,7 +136,6 @@ stages:
             displayName: 'Deploy Nginx Ingress to Kubernetes'
             inputs:
               action: 'deploy'
-              namespace: 'production'  # Specify the desired namespace
               imagePullSecrets: |
                 $(imagePullSecret)
               manifests: |
