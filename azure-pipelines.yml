@@ -56,21 +56,6 @@ stages:
     - upload: manifests
       artifact: manifests
 
-  - job: BuildNginx
-    displayName: 'Build and Push Nginx'
-    steps:
-    - task: Docker@2
-      displayName: 'Build and Push Nginx Docker Image'
-      inputs:
-        command: 'buildAndPush'
-        containerRegistry: $(dockerRegistryServiceConnection)
-        repository: $(imageRepositoryNginx)
-        dockerfile: $(dockerfilePathNginx)
-        tags: |
-          $(tag)
-
-    - upload: manifests
-      artifact: manifests
 
 - stage: Deploy
   displayName: 'Deploy to Kubernetes'
@@ -130,35 +115,6 @@ stages:
                 $(Pipeline.Workspace)/manifests/backend/service.yml
               containers: |
                 $(containerRegistry)/$(imageRepositoryBackend):$(tag)
-
-#  - deployment: DeployNginx
-#    displayName: 'Deploy Nginx'
-#    pool:
-#      vmImage: $(vmImageName)
-#    environment: 'alejandrotello7cvcreator-3490.default'
-#    strategy:
-#      runOnce:
-#        deploy:
-#          steps:
-#          - task: KubernetesManifest@0
-#            displayName: 'Create imagePullSecret'
-#            inputs:
-#              action: 'createSecret'
-#              secretName: $(imagePullSecret)
-#              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-#
-#          - task: KubernetesManifest@0
-#            displayName: 'Deploy Nginx to Kubernetes'
-#            inputs:
-#              action: 'deploy'
-#              imagePullSecrets: |
-#                $(imagePullSecret)
-#              manifests: |
-#                $(Pipeline.Workspace)/manifests/nginx/deployment.yml
-#                $(Pipeline.Workspace)/manifests/nginx/service.yml
-#                $(Pipeline.Workspace)/manifests/nginx-ingress.yaml
-#              containers: |
-#                $(containerRegistry)/$(imageRepositoryNginx):$(tag)
 
   - deployment: DeployController
     displayName: 'Deploy Controller'
