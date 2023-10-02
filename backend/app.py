@@ -1,9 +1,9 @@
-from flask import Flask, request, send_file, url_quote
+from flask import Flask, request, send_file
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph
-
+from werkzeug.utils import quote
 app = Flask(__name__)
 
 @app.route('/generate_pdf', methods=['POST'])
@@ -26,8 +26,8 @@ def generate_pdf_content(data):
     content = []
 
     # Create content here based on data received from frontend
-    content.append(Paragraph(f"Name: {url_quote(data['name'])}", getSampleStyleSheet()['Normal']))
-    content.append(Paragraph(f"Email: {url_quote(data['email'])}", getSampleStyleSheet()['Normal']))
+    content.append(Paragraph(f"Name: {quote(data['name'])}", getSampleStyleSheet()['Normal']))
+    content.append(Paragraph(f"Email: {quote(data['email'])}", getSampleStyleSheet()['Normal']))
     # Add more content here
 
     doc.build(content)
