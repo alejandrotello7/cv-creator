@@ -64,7 +64,7 @@ stages:
     displayName: 'Deploy Frontend'
     pool:
       vmImage: $(vmImageName)
-    environment: 'alejandrotello7cvcreator-3490.default'
+    environment: 'alejandrotello7cvcreator-3490.production'
     strategy:
       runOnce:
         deploy:
