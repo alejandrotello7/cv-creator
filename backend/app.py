@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, url_quote
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
@@ -26,8 +26,8 @@ def generate_pdf_content(data):
     content = []
 
     # Create content here based on data received from frontend
-    content.append(Paragraph(f"Name: {data['name']}", getSampleStyleSheet()['Normal']))
-    content.append(Paragraph(f"Email: {data['email']}", getSampleStyleSheet()['Normal']))
+    content.append(Paragraph(f"Name: {url_quote(data['name'])}", getSampleStyleSheet()['Normal']))
+    content.append(Paragraph(f"Email: {url_quote(data['email'])}", getSampleStyleSheet()['Normal']))
     # Add more content here
 
     doc.build(content)
