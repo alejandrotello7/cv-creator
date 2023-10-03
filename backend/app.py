@@ -17,7 +17,7 @@ def generate_pdf():
     pdf_buffer = BytesIO(pdf_content)
 
     # Return the PDF as a file attachment
-    return send_file(pdf_buffer, as_attachment=True, attachment_filename='generated.pdf')
+    return send_file(pdf_buffer, as_attachment=True)
 
 def generate_pdf_content(data):
     buffer = BytesIO()
