@@ -115,28 +115,3 @@ stages:
                 $(Pipeline.Workspace)/manifests/backend/service.yml
               containers: |
                 $(containerRegistry)/$(imageRepositoryBackend):$(tag)
-
-  - deployment: DeployController
-    displayName: 'Deploy Controller'
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'alejandrotello7cvcreator-3490.default'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: KubernetesManifest@0
-            displayName: 'Create imagePullSecret'
-            inputs:
-              action: 'createSecret'
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-
-          - task: KubernetesManifest@0
-            displayName: 'Deploy Nginx Ingress to Kubernetes'
-            inputs:
-              action: 'deploy'
-              imagePullSecrets: |
-                $(imagePullSecret)
-              manifests: |
-                $(Pipeline.Workspace)/manifests/nginx-ingress.yaml
