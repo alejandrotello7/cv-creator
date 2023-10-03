@@ -6,6 +6,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from werkzeug.utils import quote
 app = Flask(__name__)
 
+@app.route('/generate_pdf', methods=['POST'])
 @app.route('/backend/generate_pdf', methods=['POST'])
 def generate_pdf():
     data = request.json
