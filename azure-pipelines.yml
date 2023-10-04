@@ -23,10 +23,10 @@ variables:
 
 stages:
 - stage: BuildAndPush
-  displayName: 'Build and Push Docker Images'
+  displayName: 'Build, Push, and Publish Docker Images'
   jobs:
   - job: BuildFrontend
-    displayName: 'Build and Push Frontend'
+    displayName: 'Build, Push, and Publish Frontend'
     steps:
     - task: Docker@2
       displayName: 'Build and Push Frontend Docker Image'
@@ -37,11 +37,23 @@ stages:
         dockerfile: $(dockerfilePathFrontend)
         tags: |
           $(tag)
-    - upload: manifests
-      artifact: manifests
+      env:
+        DOCKER_BUILDKIT: 1
+
+    - task: Docker@2
+      displayName: 'Publish Frontend Docker Image as Artifact'
+      inputs:
+        command: 'push'
+        containerRegistry: $(dockerRegistryServiceConnection)
+        repository: $(imageRepositoryFrontend)
+        tags: |
+          $(tag)
+      env:
+        DOCKER_BUILDKIT: 1
+      condition: succeeded()
 
   - job: BuildBackend
-    displayName: 'Build and Push Backend'
+    displayName: 'Build, Push, and Publish Backend'
     steps:
     - task: Docker@2
       displayName: 'Build and Push Backend Docker Image'
@@ -52,9 +64,20 @@ stages:
         dockerfile: $(dockerfilePathBackend)
         tags: |
           $(tag)
+      env:
+        DOCKER_BUILDKIT: 1
 
-    - upload: manifests
-      artifact: manifests
+    - task: Docker@2
+      displayName: 'Publish Backend Docker Image as Artifact'
+      inputs:
+        command: 'push'
+        containerRegistry: $(dockerRegistryServiceConnection)
+        repository: $(imageRepositoryBackend)
+        tags: |
+          $(tag)
+      env:
+        DOCKER_BUILDKIT: 1
+      condition: succeeded()
 
 
 - stage: Deploy
