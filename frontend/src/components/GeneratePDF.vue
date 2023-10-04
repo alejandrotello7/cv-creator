@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <input v-model="name" placeholder="Name" class="text-blue-600 flex space-x-4 border-2 border-rose-600 " />
-    <input v-model="last_name" placeholder="Last Name" class="text-blue-600 flex space-x-4 border-2 border-rose-600 "  />
-    <input v-model="email" placeholder="Email" class="text-blue-600 flex space-x-4 border-2 border-rose-600 "  />
+  <div class="input-section" >
+    <input v-model="name" placeholder="Name" class="input-field"  />
+    <input v-model="last_name" placeholder="Last Name" class="input-field"  />
+    <input v-model="email" placeholder="Email" class="input-field"  />
     <!-- Other input fields -->
-    <button @click="generatePDF" class="text-blue-600 flex space-x-4 border-2 border-rose-600 " >Generate PDF</button>
+    <button @click="generatePDF" >Generate PDF</button>
   </div>
 </template>
 

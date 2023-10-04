@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://secretatello.vault.azure.net/certificates/atello-certificate
+  name: router
+  namespace: default
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+    - host: cvcreator.alejandrotello.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: ingress-nginx-defaulters-controller
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - cvcreator.alejandrotello.com
+      secretName: keyvault-router

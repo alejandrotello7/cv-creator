@@ -29,8 +29,8 @@ def generate_pdf_content(data):
 
     # Create content here based on data received from frontend
     content.append(Paragraph(f"Name: {quote(data['name'])}", getSampleStyleSheet()['Normal']))
+    content.append(Paragraph(f"Last Name: {quote(data['last_name'])}", getSampleStyleSheet()['Normal']))
     content.append(Paragraph(f"Email: {quote(data['email'])}", getSampleStyleSheet()['Normal']))
-    # Add more content here
 
     doc.build(content)
     pdf_content = buffer.getvalue()
