@@ -10,3 +10,7 @@
 .input-field {
   @apply p-2 border-2 rounded;
 }
+
+.input-button{
+    @apply p-2 border-2 rounded border-green-400
+}

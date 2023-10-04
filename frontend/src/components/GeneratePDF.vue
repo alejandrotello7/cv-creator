@@ -4,7 +4,7 @@
     <input v-model="last_name" placeholder="Last Name" class="input-field"  />
     <input v-model="email" placeholder="Email" class="input-field"  />
     <!-- Other input fields -->
-    <button @click="generatePDF" >Generate PDF</button>
+    <button @click="generatePDF" class="input-button" >Generate PDF</button>
   </div>
 </template>
 
